@@ -63,11 +63,11 @@ local function Flash(cell)
     cell.flash:Show()
     cell:SetScript("OnUpdate", function(self, elapsed)
         self.flashTime = self.flashTime + elapsed
-        if self.flashTime >= 0.9 then
+        if self.flashTime >= 1.8 then
             self.flash:Hide()
             self:SetScript("OnUpdate", nil)
         else
-            self.flash:SetShown(self.flashTime % 0.3 < 0.14)
+            self.flash:SetShown(self.flashTime % 0.6 < 0.28)
         end
     end)
 end

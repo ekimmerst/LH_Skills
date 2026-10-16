@@ -47,7 +47,7 @@ rank=50; events.scripts.OnEvent(events,'SKILL_LINES_CHANGED'); events.scripts.On
 assert(cell.text.color[3]==0 and cell.text.color[2]==1)
 local flashes=1
 local was=cell.flash.shown
-for i=1,100 do
+for i=1,200 do
  if cell.scripts.OnUpdate then cell.scripts.OnUpdate(cell,0.01) end
  if cell.flash.shown and not was then flashes=flashes+1 end
  was=cell.flash.shown
