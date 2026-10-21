@@ -1,9 +1,9 @@
 ## Interface: 16001
-## Title: MiniSkills
+## Title: LH_Skills
 ## Notes: Compact draggable profession skills with rank colors and skill-up flashes.
-## Author: MiniSkills
-## Version: 1.0.0
+## Author: LH_Skills
+## Version: 1.0.1
 ## OptionalDeps: MiniStats
-## SavedVariablesPerCharacter: MiniSkillsDB
+## SavedVariablesPerCharacter: LH_SkillsDB
 
-MiniSkills.lua
+LH_Skills.lua

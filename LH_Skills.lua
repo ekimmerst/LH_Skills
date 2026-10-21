@@ -10,7 +10,7 @@ local function CanTrain(s)
 end
 local function RestorePosition()
     bar:ClearAllPoints()
-    local p = MiniSkillsDB.position
+    local p = LH_SkillsDB.position
     if type(p) == "table" and type(p.x) == "number" and type(p.y) == "number" then
         bar:SetPoint("CENTER", UIParent, "BOTTOMLEFT", p.x, p.y)
     elseif MiniStatsFrame then
@@ -25,7 +25,7 @@ local function StopDrag()
     local x, y = bar:GetCenter()
     if x and y then
         local scale = bar:GetEffectiveScale() / UIParent:GetEffectiveScale()
-        MiniSkillsDB.position = {x = x * scale, y = y * scale}
+        LH_SkillsDB.position = {x = x * scale, y = y * scale}
     end
     RestorePosition()
 end
@@ -39,7 +39,7 @@ local function CreateCell()
     cell:SetScript("OnEnter", function(self)
         GameTooltip:SetOwner(self, "ANCHOR_BOTTOMLEFT")
         GameTooltip:AddLine(self.skill.name, 1, 0.82, 0)
-        GameTooltip:AddLine("Mit linker Maustaste ziehen zum Verschieben", 0.7, 0.7, 0.7)
+        GameTooltip:AddLine("Left-drag to move", 0.7, 0.7, 0.7)
         GameTooltip:Show()
     end)
     cell:SetScript("OnLeave", function() GameTooltip:Hide() end)
@@ -140,8 +140,8 @@ end
 events:SetScript("OnEvent", function(_, event, name)
     if event == "ADDON_LOADED" then
         if name ~= ADDON_NAME or bar then return end
-        MiniSkillsDB = type(MiniSkillsDB) == "table" and MiniSkillsDB or {}
-        bar = CreateFrame("Frame", "MiniSkillsFrame", UIParent)
+        LH_SkillsDB = type(LH_SkillsDB) == "table" and LH_SkillsDB or {}
+        bar = CreateFrame("Frame", "LH_SkillsFrame", UIParent)
         bar:SetSize(140, 20)
         bar:SetFrameStrata("MEDIUM")
         bar:SetMovable(true)
@@ -153,17 +153,17 @@ events:SetScript("OnEvent", function(_, event, name)
         RestorePosition()
     end
     if bar then pending = true end
-    if bar and event == "PLAYER_ENTERING_WORLD" and not MiniSkillsDB.position then RestorePosition() end
+    if bar and event == "PLAYER_ENTERING_WORLD" and not LH_SkillsDB.position then RestorePosition() end
 end)
 -- Read after event bursts, once the client's skill values have settled.
 events:SetScript("OnUpdate", function()
     if pending then pending = false; Update() end
 end)
-SLASH_MINISKILLS1 = "/miniskills"
-SlashCmdList.MINISKILLS = function(message)
+SLASH_LH_SKILLS1 = "/lh_skills"
+SlashCmdList.LH_SKILLS = function(message)
     if not bar then return end
     if (message or ""):lower():match("^%s*reset%s*$") then
-        MiniSkillsDB.position = nil
+        LH_SkillsDB.position = nil
         RestorePosition()
-    else print("MiniSkills: /miniskills reset - Position zuruecksetzen. Mit linker Maustaste ziehen.") end
+    else print("LH_Skills: /lh_skills reset - Restore the default position. Left-drag to move.") end
 end

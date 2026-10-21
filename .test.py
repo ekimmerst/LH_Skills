@@ -34,10 +34,10 @@ function GetProfessions() return nil,nil,nil,learned and 4 or nil end
 function GetProfessionInfo() return 'Fishing',123,rank,cap,nil,nil,356 end
 C_Spell={GetSpellName=function(id) if id==7620 then return 'Fishing' end end}
 ''')
-lua.execute(pathlib.Path(__file__).with_name('MiniSkills.lua').read_text(encoding='utf-8'), 'MiniSkills')
+lua.execute(pathlib.Path(__file__).with_name('LH_Skills.lua').read_text(encoding='utf-8'), 'LH_Skills')
 lua.execute('''
 local events=frames[1]
-events.scripts.OnEvent(events,'ADDON_LOADED','MiniSkills')
+events.scripts.OnEvent(events,'ADDON_LOADED','LH_Skills')
 events.scripts.OnUpdate()
 local cell=frames[3]
 assert(cell.text.text=='20/75')
@@ -57,9 +57,9 @@ rank=75; events.scripts.OnEvent(events,'SKILL_LINES_CHANGED'); events.scripts.On
 assert(cell.text.color[2]==0.5)
 cap=150; events.scripts.OnEvent(events,'SKILL_LINES_CHANGED'); events.scripts.OnUpdate()
 assert(cell.text.color[3]==1)
-cell.scripts.OnDragStop(); assert(MiniSkillsDB.position.x==100)
-SlashCmdList.MINISKILLS('reset'); assert(MiniSkillsDB.position==nil)
+cell.scripts.OnDragStop(); assert(LH_SkillsDB.position.x==100)
+SlashCmdList.LH_SKILLS('reset'); assert(LH_SkillsDB.position==nil)
 learned=false; events.scripts.OnEvent(events,'SKILL_LINES_CHANGED'); events.scripts.OnUpdate()
-assert(not MiniSkillsFrame.shown and cell.skill==nil)
+assert(not LH_SkillsFrame.shown and cell.skill==nil)
 ''')
 print('PASS: loading, secondary slot gaps, white/yellow/orange, three flashes, cap upgrade, drag saving/reset, unlearning')
