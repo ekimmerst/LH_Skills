@@ -14,6 +14,11 @@ function methods:SetWidth(v) self.width=v end
 function methods:GetWidth() return self.width or 100 end
 function methods:GetStringWidth() return #(self.text or '')*6 end
 function methods:SetText(v) self.text=v end
+function methods:SetPoint(...) self.point={...} end
+function methods:StartMoving() self.moving=true end
+function methods:StopMovingOrSizing() self.moving=false end
+function methods:SetFontObject(v) self.fontObject=v end
+function methods:SetFont(...) self.font={...} end
 function methods:SetTextColor(...) self.color={...} end
 function methods:Show() self.shown=true end
 function methods:Hide() self.shown=false end
@@ -22,16 +27,20 @@ function methods:GetCenter() return 100,200 end
 function methods:GetEffectiveScale() return 1 end
 local function object()
  local o={scripts={},shown=true}
- return setmetatable(o,{__index=function(t,k) if k=="skill" or k=="position" then return nil end; return methods[k] or function() end end})
+ return setmetatable(o,{__index=function(t,k) if k=="skill" or k=="position" or k=="moving" then return nil end; return methods[k] or function() end end})
 end
 function methods:CreateTexture() return object() end
 function methods:CreateFontString() return object() end
 function CreateFrame(_,name) local o=object(); frames[#frames+1]=o; if name then _G[name]=o end; return o end
 UIParent=object(); Minimap=object(); GameTooltip=object(); SlashCmdList={}; STANDARD_TEXT_FONT='font'
-rank=20; cap=75; level=60; learned=true
+ObjectiveTrackerLineFont={GetFont=function() return 'quest-font',12,'' end}
+rank=20; cap=75; level=60; learned=true; secondLearned=false
 function UnitLevel() return level end
-function GetProfessions() return nil,nil,nil,learned and 4 or nil end
-function GetProfessionInfo() return 'Fishing',123,rank,cap,nil,nil,356 end
+function GetProfessions() return nil,nil,nil,learned and 4 or nil,secondLearned and 5 or nil end
+function GetProfessionInfo(index)
+ if index==5 then return 'Cooking',456,80,150,nil,nil,185 end
+ return 'Fishing',123,rank,cap,nil,nil,356
+end
 C_Spell={GetSpellName=function(id) if id==7620 then return 'Fishing' end end}
 ''')
 lua.execute(pathlib.Path(__file__).with_name('LH_Skills.lua').read_text(encoding='utf-8'), 'LH_Skills')
@@ -41,6 +50,8 @@ events.scripts.OnEvent(events,'ADDON_LOADED','LH_Skills')
 events.scripts.OnUpdate()
 local cell=frames[3]
 assert(cell.text.text=='20/75')
+assert(cell.text.fontObject==ObjectiveTrackerLineFont and cell.text.font[1]=='quest-font')
+assert(cell.text.font[2]==10 and cell.text.font[3]=='')
 assert(cell.text.color[2]==1 and cell.text.color[3]==1)
 assert(cell.scripts.OnUpdate==nil)
 rank=50; events.scripts.OnEvent(events,'SKILL_LINES_CHANGED'); events.scripts.OnUpdate()
@@ -57,9 +68,30 @@ rank=75; events.scripts.OnEvent(events,'SKILL_LINES_CHANGED'); events.scripts.On
 assert(cell.text.color[2]==0.5)
 cap=150; events.scripts.OnEvent(events,'SKILL_LINES_CHANGED'); events.scripts.OnUpdate()
 assert(cell.text.color[3]==1)
+cell.scripts.OnDragStart(); assert(not LH_SkillsFrame.moving)
+cell.scripts.OnDragStop(); assert(LH_SkillsDB.position==nil)
+SlashCmdList.LH_SKILLS('unlock');assert(not LH_SkillsDB.locked)
+cell.scripts.OnDragStart();assert(LH_SkillsFrame.moving)
 cell.scripts.OnDragStop(); assert(LH_SkillsDB.position.x==100)
 SlashCmdList.LH_SKILLS('reset'); assert(LH_SkillsDB.position==nil)
-learned=false; events.scripts.OnEvent(events,'SKILL_LINES_CHANGED'); events.scripts.OnUpdate()
+LH_Skills:SetOption('alignment','CENTER');assert(cell.point[4]>0)
+local centered=cell.point[4]
+LH_Skills:SetOption('alignment','RIGHT');assert(cell.point[4]==centered*2)
+LH_Skills:SetOption('alignment','LEFT');assert(cell.point[4]==0)
+LH_Skills:SetOption('barWidth',400);assert(LH_SkillsFrame.width==400)
+secondLearned=true;events.scripts.OnEvent(events,'SKILL_LINES_CHANGED');events.scripts.OnUpdate()
+local second=frames[4]
+assert(second.text.text=='80/150' and second.point[4]==cell.width+12)
+LH_Skills:SetOption('alignment','CENTER')
+local firstOffset=cell.point[4]
+assert(firstOffset>0 and second.point[4]==firstOffset+cell.width+12)
+LH_Skills:SetOption('alignment','RIGHT')
+assert(cell.point[4]==firstOffset*2)
+assert(second.point[4]+second.width==LH_SkillsFrame.width)
+LH_Skills:SetOption('enabled',false);assert(not LH_SkillsFrame.shown)
+LH_Skills:SetOption('enabled',true);assert(LH_SkillsFrame.shown)
+SlashCmdList.LH_SKILLS('lock');assert(LH_SkillsDB.locked)
+learned=false;secondLearned=false; events.scripts.OnEvent(events,'SKILL_LINES_CHANGED'); events.scripts.OnUpdate()
 assert(not LH_SkillsFrame.shown and cell.skill==nil)
 ''')
 print('PASS: loading, secondary slot gaps, white/yellow/orange, three flashes, cap upgrade, drag saving/reset, unlearning')

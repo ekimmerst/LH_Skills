@@ -1,10 +1,14 @@
 ## Interface: 16001
 ## Dependencies: LH_Tweaks
-## Title: LH_Skills
+## Title: LH Skills
+## Group: LH_Tweaks
+## X-Part-Of: LH_Tweaks
+## IconTexture: Interface\AddOns\LH_Skills\Media\Icon
 ## Notes: Compact draggable profession skills with rank colors and skill-up flashes.
 ## Author: LH_Skills
-## Version: 1.0.2
+## Version: 1.1.0
 ## OptionalDeps: LH_Stats
 ## SavedVariablesPerCharacter: LH_SkillsDB
 
 LH_Skills.lua
+Settings.lua
