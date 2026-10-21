@@ -166,6 +166,7 @@ local function Update()
         offset = offset + cell:GetWidth() + 12
     end
     preview:SetShown(#professions == 0 and not Options().locked)
+    bar.editBackground:SetShown(not Options().locked)
     bar:SetShown(#professions > 0 or not Options().locked)
 end
 function Addon:SetOption(key, value)
@@ -205,6 +206,10 @@ events:SetScript("OnEvent", function(_, event, name)
         bar:RegisterForDrag("LeftButton")
         bar:SetScript("OnDragStart", StartDrag)
         bar:SetScript("OnDragStop", StopDrag)
+        bar.editBackground = bar:CreateTexture(nil, "BACKGROUND")
+        bar.editBackground:SetAllPoints()
+        bar.editBackground:SetColorTexture(0, 0, 0, 0.5)
+        bar.editBackground:SetShown(not LH_SkillsDB.locked)
         preview = bar:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
         preview:SetPoint("CENTER", bar, "CENTER")
         preview:SetText("LH Skills - drag to move")

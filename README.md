@@ -10,7 +10,7 @@ A compact display of your learned professions and secondary skills. Each entry s
 - Yellow ranks indicate eligibility for the next training tier according to the addon's skill and character-level checks.
 - Orange ranks indicate that the current skill cap has been reached.
 - Changes to a skill rank or cap trigger three brief flashes.
-- Unlock the bar in Settings or with `/lh_skills unlock`, then left-drag an entry or the empty bar area to move it. Lock it with `/lh_skills lock` to prevent accidental moves. The unlocked preview stays visible even without learned skills.
+- Unlock the bar in Settings or with `/lh_skills unlock`, then left-drag an entry or the empty bar area to move it. A gray background shows the bar's bounds while unlocked, including when changing its width. Lock it with `/lh_skills lock` to prevent accidental moves. The unlocked preview stays visible even without learned skills.
 - `/lh_skills reset` restores the default position.
 
 The locked display hides when no professions or secondary skills are learned. Its position, activation, lock state, group alignment and width are saved per character in `LH_SkillsDB`. By default, it appears below LH_Stats when that addon is available, otherwise below the minimap. LH_Stats is optional.
