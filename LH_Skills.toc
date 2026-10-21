@@ -2,8 +2,8 @@
 ## Title: LH_Skills
 ## Notes: Compact draggable profession skills with rank colors and skill-up flashes.
 ## Author: LH_Skills
-## Version: 1.0.1
-## OptionalDeps: MiniStats
+## Version: 1.0.2
+## OptionalDeps: LH_Stats
 ## SavedVariablesPerCharacter: LH_SkillsDB
 
 LH_Skills.lua

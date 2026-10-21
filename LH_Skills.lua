@@ -13,8 +13,8 @@ local function RestorePosition()
     local p = LH_SkillsDB.position
     if type(p) == "table" and type(p.x) == "number" and type(p.y) == "number" then
         bar:SetPoint("CENTER", UIParent, "BOTTOMLEFT", p.x, p.y)
-    elseif MiniStatsFrame then
-        bar:SetPoint("TOPLEFT", MiniStatsFrame, "BOTTOMLEFT", 0, -3)
+    elseif LH_StatsFrame then
+        bar:SetPoint("TOPLEFT", LH_StatsFrame, "BOTTOMLEFT", 0, -3)
     else
         bar:SetPoint("TOPLEFT", Minimap or UIParent, "BOTTOMLEFT", 0, -54)
     end
