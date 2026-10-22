@@ -1,5 +1,7 @@
 <h1 style="color: #d9a94b;">LH Skills</h1>
 
+<p>Keep profession and secondary skill ranks visible in a compact, movable bar with rank colors and skill-up flashes.</p>
+
 <p>A compact look at your profession skills while you play. LH Skills shows learned profession and secondary skill ranks in a small bar that can sit with the rest of the LH UI.</p>
 
 <h2 style="color: #73c9c4;">What it does</h2>
