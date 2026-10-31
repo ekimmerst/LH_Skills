@@ -17,20 +17,19 @@ end
 
 local function Build(category, layout)
     Addon.category = category
+    layout:AddInitializer(CreateSettingsListSectionHeaderInitializer("Positioning"))
+    local locked = Proxy(category, "locked", "boolean", "Lock skill bar", true,
+        function() return Addon:GetOption("locked") end,
+        function(value) Addon:SetOption("locked", value) end)
+    Settings.CreateCheckbox(category, locked,
+        "Disable to drag the skill bar. A preview remains visible while unlocked, even with no learned skills. Saved per character.")
+
     layout:AddInitializer(CreateSettingsListSectionHeaderInitializer("Profession skills"))
     local enabled = Proxy(category, "enabled", "boolean", "Enable skill display", true,
         function() return Addon:GetOption("enabled") end,
         function(value) Addon:SetOption("enabled", value) end)
     local parent = Settings.CreateCheckbox(category, enabled,
         "Show learned profession and secondary skill ranks. Saved per character.")
-
-    layout:AddInitializer(CreateSettingsListSectionHeaderInitializer("Position and layout"))
-    local unlocked = Proxy(category, "unlocked", "boolean", "Unlock and move the skill bar", false,
-        function() return not Addon:GetOption("locked") end,
-        function(value) Addon:SetOption("locked", not value) end)
-    local unlockControl = Settings.CreateCheckbox(category, unlocked,
-        "Left-drag the skill bar to move it. A preview remains visible while unlocked even with no learned skills. Saved per character.")
-    unlockControl:SetParentInitializer(parent, function() return Addon:GetOption("enabled") end)
 
     local alignment = Proxy(category, "alignment", "string", "Skill group alignment", "LEFT",
         function() return Addon:GetOption("alignment") end,

@@ -16,6 +16,8 @@
 
 <p>Open <strong>Options → AddOns → LH Tweaks → LH Skills</strong>. Unlock the bar to drag it; a preview stays visible even if you have not learned a skill yet. Choose the bar width and alignment, or reset its position. It sits below LH Stats when that addon is installed, otherwise below the minimap.</p>
 
+<p><strong>Retail 12.1.5:</strong> Profession ranks remain visible. Classic trainer thresholds are not applied to Retail's expansion-specific profession ranks.</p>
+
 <h2 style="color: #73c9c4;">More LH addons</h2>
 
 <p>Choose only the pieces you want. Each companion addon also requires LH Tweaks.</p>

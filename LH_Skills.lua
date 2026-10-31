@@ -15,6 +15,8 @@ local function Options()
 end
 function Addon:GetOption(key) return Options()[key] end
 local function CanTrain(s)
+    -- Retail professions have expansion-specific ranks, not Classic trainer thresholds.
+    if WOW_PROJECT_MAINLINE and WOW_PROJECT_ID == WOW_PROJECT_MAINLINE then return false end
     local level = UnitLevel("player") or 0
     local free = s.id == 182 or s.id == 186 or s.id == 393 or s.id == 129 or s.id == 356
     if s.max == 75 then return s.rank >= 50 and level >= (free and 0 or 10) end
@@ -97,7 +99,7 @@ local function Flash(cell)
         end
     end)
 end
--- Resolve localized names because Forever may return custom profession IDs.
+-- Resolve localized names when a client returns custom profession IDs.
 local spells = {{2259,171},{2018,164},{7411,333},{4036,202},{2366,182},{2108,165},
     {2575,186},{8613,393},{3908,197},{2550,185},{3273,129},{7620,356}}
 local function SkillLine(name, id)
@@ -191,7 +193,9 @@ end
 local events = CreateFrame("Frame")
 for _, event in ipairs({"ADDON_LOADED", "PLAYER_ENTERING_WORLD", "SKILL_LINES_CHANGED", "CHAT_MSG_SKILL",
     "PLAYER_LEVEL_UP", "UI_SCALE_CHANGED", "DISPLAY_SIZE_CHANGED"}) do
-    events:RegisterEvent(event)
+    if not (C_EventUtils and C_EventUtils.IsEventValid) or C_EventUtils.IsEventValid(event) then
+        events:RegisterEvent(event)
+    end
 end
 events:SetScript("OnEvent", function(_, event, name)
     if event == "ADDON_LOADED" then
