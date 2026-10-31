@@ -43,5 +43,13 @@
 
 <p><strong>LH Tweaks is required</strong> and must be installed alongside LH Skills. LH Stats is optional. I made this for my own professions and would love to know if it helps with yours. Please post feedback or missing skill cases in the CurseForge comments.</p>
 
+<h2 style="color: #73c9c4;">Changelog</h2>
+
+<p><strong>1.1.0 - Forever</strong></p>
+
+<ul>
+  <li>No gameplay changes in this Forever branch; the movable profession skill bar and skill-up flashes remain available.</li>
+</ul>
+
 <hr>
-<p><sup>*</sup> Implemented with the help of Codex and GPT-6-SOL and tested by me as thoroughly as I could in the WoW beta client. Skill data can vary; please report anything you notice.</p>
+<p><sup>*</sup> Implemented with the help of Codex and GPT-6-SOL. Skill data can vary; please report anything you notice.</p>
